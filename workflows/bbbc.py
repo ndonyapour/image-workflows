@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from wic.api.pythonapi import Step, Workflow
+from sophios.api.pythonapi import Step, Workflow
 
 def workflow() -> Workflow:
     bbbcdownload = Step(clt_path='../image-workflows/cwl_adapters/bbbcdownload.cwl')
@@ -11,7 +11,6 @@ def workflow() -> Workflow:
     subdirectory = Step(clt_path='../workflow-inference-compiler/cwl_adapters/subdirectory.cwl')
     subdirectory.directory = bbbcdownload.outDir
     subdirectory.glob_pattern = 'bbbcdownload.outDir/BBBC/BBBC001/raw/Images/human_ht29_colon_cancer_1_images/'
-    subdirectory.subdirectory = Path('subdirectory.subdirectory')
 
     filerenaming = Step(clt_path='../image-workflows/cwl_adapters/file-renaming.cwl')
     # NOTE: FilePattern {} syntax shadows python f-string {} syntax

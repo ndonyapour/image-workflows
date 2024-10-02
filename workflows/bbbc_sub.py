@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from wic import plugins
-from wic.api import pythonapi
-from wic.api.pythonapi import Step, Workflow
+from sophios import plugins
+from sophios.api import pythonapi
+from sophios.api.pythonapi import Step, Workflow
 
 def workflow() -> Workflow:
     bbbcdownload = Step(clt_path='cwl_adapters/bbbcdownload.cwl')
@@ -13,7 +13,6 @@ def workflow() -> Workflow:
     subdirectory = Step(clt_path='../workflow-inference-compiler/cwl_adapters/subdirectory.cwl')
     subdirectory.directory = bbbcdownload.outDir
     subdirectory.glob_pattern = 'bbbcdownload.outDir/BBBC/BBBC001/raw/Images/human_ht29_colon_cancer_1_images/'
-    subdirectory.subdirectory = Path('subdirectory.subdirectory')
 
     filerenaming = Step(clt_path='cwl_adapters/file-renaming.cwl')
     # NOTE: FilePattern {} syntax shadows python f-string {} syntax
@@ -46,7 +45,6 @@ def workflow2() -> Workflow:
     # i.e. This is the API for the subworkflow.
     subworkflow.steps[0].directory = subworkflow.directory
     subworkflow.steps[0].glob_pattern = subworkflow.glob_pattern
-    subworkflow.steps[0].subdirectory = Path('subdirectory.subdirectory')
 
     # Then apply arguments at the call site.
     # Notice how the caller does not need to know about the internal details of the subworkflow
