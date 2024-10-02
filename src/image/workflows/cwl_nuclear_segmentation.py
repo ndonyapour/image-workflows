@@ -139,7 +139,6 @@ class CWLSegmentationWorkflow:
         rename.outFilePattern = self.out_file_pattern
         rename.mapDirectory = self.map_directory
         rename.inpDir = bbbc.outDir
-        # rename.inpDir = Path("/Users/abbasih2/Desktop/inp")
         rename.outDir = Path("rename.outDir")
 
         # Step: OME Converter

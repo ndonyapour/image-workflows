@@ -153,7 +153,7 @@ class CWLVisualizationWorkflow:
         # Step: OME Converter
         ome_converter = self.create_step(self._get_manifest_url("ome_converter"))
         ome_converter.filePattern = self._extract_file_extension(self.out_file_pattern)
-        # ome_converter.fileExtension = ".ome.tif"
+        ome_converter.fileExtension = ".ome.tif"
         ome_converter.inpDir = rename.outDir
         ome_converter.outDir = Path("ome_converter.outDir")
 
@@ -210,7 +210,7 @@ class CWLVisualizationWorkflow:
             apply_flatfield if self.background_correction else None,
             montage,
             image_assembler,
-            precompute_slide
+            precompute_slide # At the moment precompute slide is not working. PR will be open for the fix
         ]
         workflow = Workflow(steps, f"{self.name}_workflow")
         # Compile and run using WIC python API
@@ -218,6 +218,6 @@ class CWLVisualizationWorkflow:
         workflow.compile()
         workflow.run()
         self._move_outputs()
-        logger.info("Completed CWL nuclear segmentation workflow.")
+        logger.info("Completed CWL visualization workflow.")
 
         return

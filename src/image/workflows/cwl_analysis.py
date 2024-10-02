@@ -197,6 +197,7 @@ class CWLAnalysisWorkflow:
         nyxus_plugin.outDir =  Path("nyxus_plugin.outDir")
 
         # Run the workflow
+
         steps = [
             bbbc, rename, ome_converter,
             estimate_flatfield if self.background_correction else None,
@@ -211,5 +212,5 @@ class CWLAnalysisWorkflow:
         workflow.compile()
         workflow.run()
         self._move_outputs()
-        logger.info("Completed CWL nuclear segmentation workflow.")
+        logger.info("Completed CWL analysis workflow.")
         return

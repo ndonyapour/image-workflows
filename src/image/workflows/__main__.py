@@ -22,6 +22,14 @@ logger = logging.getLogger("WIC Python API")
 logger.setLevel(logging.INFO)
 
 
+# Mapping of workflow names to their corresponding classes
+WORKFLOW_CLASSES = {
+    "analysis": CWLAnalysisWorkflow,
+    "segmentation": CWLSegmentationWorkflow,
+    "visualization": CWLVisualizationWorkflow
+}
+
+
 @app.command()
 def main(
     name: str = typer.Option(
@@ -44,7 +52,14 @@ def main(
     )
 ) -> None:
 
-    """Execute CWL Workflow."""
+    """
+    Execute the specified CWL Workflow.
+
+    Attributes:
+        name (str): The name of the imaging dataset.
+        workflow (str): The name of the CWL workflow to execute.
+        out_dir (Path): The output directory for workflow results.
+    """
 
     logger.info(f"name = {name}")
     logger.info(f"workflow = {workflow}")
@@ -53,33 +68,54 @@ def main(
     config_path = Path.cwd().joinpath(f"configuration/{workflow}/{name}.yml")
     work_dir = Path.cwd()
  
+    try:
+        # Load the YAML configuration
+        model = LoadYaml(workflow=workflow, config_path=config_path)
+        params = model.parse_yaml()
 
+        # Set output directory
+        out_dir = out_dir or Path.cwd()
+        params["out_dir"] = out_dir
+        params["work_dir"] = work_dir
 
-    model = LoadYaml(workflow=workflow, config_path=config_path)
-    params = model.parse_yaml()
-    if out_dir == None:
-        out_dir = Path.cwd()
-    params["out_dir"] = out_dir
-    params["work_dir"] = work_dir
+        # Get the workflow class
+        workflow_class = WORKFLOW_CLASSES.get(workflow)
+        if not workflow_class:
+            logger.error(f"Workflow '{workflow}' is not recognized. Available workflows: {list(WORKFLOW_CLASSES.keys())}")
+            raise ValueError(f"Unknown workflow: {workflow}")
 
+        logger.info(f"Executing {workflow} workflow.")
+        # Initialize and execute the workflow class
+        workflow_instance = workflow_class(**params)
+        workflow_instance.workflow()
 
-    if workflow == "analysis":
-        logger.info(f"Executing {workflow}!!!")
-        model = CWLAnalysisWorkflow(**params)
-        model.workflow()
+    except FileNotFoundError as e:
+        logger.error(f"Configuration file not found: {e}")
+    except Exception as e:
+        logger.error(f"An error occurred while executing the workflow: {e}")
+        raise
 
-    if workflow == "segmentation":
-        logger.info(f"Executing {workflow}!!!")
-        model = CWLSegmentationWorkflow(**params)
-        model.workflow()
+    # model = LoadYaml(workflow=workflow, config_path=config_path)
+    # params = model.parse_yaml()
 
-    # if workflow == "visualization":
-    #     logger.info(f"Executing {workflow}!!!")
-    #     model = CWLVisualizationWorkflow(**params)
+    # out_dir = out_dir or Path.cwd()
+
+    # params["out_dir"] = out_dir
+    # params["work_dir"] = work_dir
+
+    # # Validate workflow and execute corresponding class
+    # workflow_class = WORKFLOW_CLASSES.get(workflow)
+    # print(workflow_class)
+    # if workflow_class:
+    #     logger.info(f"Executing {workflow} workflow.")
+    #     model = workflow_class(**params)
     #     model.workflow()
+    # else:
+    #     logger.error(f"Invalid workflow: {workflow}. Available options: {', '.join(WORKFLOW_CLASSES.keys())}")
+    #     raise ValueError(f"Workflow '{workflow}' is not recognized.")
 
+    # logger.info(f"Completed {workflow} workflow execution!")
 
-    logger.info("Completed CWL workflow!!!")
 
 
 if __name__ == "__main__":
