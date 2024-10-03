@@ -24,7 +24,7 @@ outputs:
     type: Directory
 requirements:
   DockerRequirement:
-    dockerPull: polusai/kaggle-nuclei-segmentation-tool:0.1.5-dev1
+    dockerPull: polusai/kaggle-nuclei-segmentation-tool:0.1.5-dev2
   EnvVarRequirement:
     envDef:
       HOME: /home/polusai

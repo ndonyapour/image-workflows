@@ -1,22 +1,34 @@
 class: CommandLineTool
 cwlVersion: v1.2
 inputs:
-  fileExtension:
+  dfPattern:
     inputBinding:
-      prefix: --fileExtension
-    type: string
-  filePattern:
+      prefix: --dfPattern
+    type: string?
+  ffDir:
     inputBinding:
-      prefix: --filePattern
-    type: string
-  inpDir:
-    inputBinding:
-      prefix: --inpDir
+      prefix: --ffDir
     type: Directory
+  ffPattern:
+    inputBinding:
+      prefix: --ffPattern
+    type: string
+  imgDir:
+    inputBinding:
+      prefix: --imgDir
+    type: Directory
+  imgPattern:
+    inputBinding:
+      prefix: --imgPattern
+    type: string
   outDir:
     inputBinding:
       prefix: --outDir
     type: Directory
+  preview:
+    inputBinding:
+      prefix: --preview
+    type: boolean?
 outputs:
   outDir:
     outputBinding:
@@ -24,7 +36,7 @@ outputs:
     type: Directory
 requirements:
   DockerRequirement:
-    dockerPull: polusai/ome-converter-tool:0.3.2
+    dockerPull: polusai/apply-flatfield-tool:2.0.1
   EnvVarRequirement:
     envDef:
       HOME: /home/polusai

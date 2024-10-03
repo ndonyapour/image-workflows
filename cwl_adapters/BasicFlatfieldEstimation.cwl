@@ -1,14 +1,18 @@
 class: CommandLineTool
 cwlVersion: v1.2
 inputs:
-  fileExtension:
-    inputBinding:
-      prefix: --fileExtension
-    type: string
   filePattern:
     inputBinding:
       prefix: --filePattern
     type: string
+  getDarkfield:
+    inputBinding:
+      prefix: --getDarkfield
+    type: boolean
+  groupBy:
+    inputBinding:
+      prefix: --groupBy
+    type: string?
   inpDir:
     inputBinding:
       prefix: --inpDir
@@ -24,7 +28,7 @@ outputs:
     type: Directory
 requirements:
   DockerRequirement:
-    dockerPull: polusai/ome-converter-tool:0.3.2
+    dockerPull: polusai/basic-flatfield-estimation-tool:2.1.2
   EnvVarRequirement:
     envDef:
       HOME: /home/polusai
