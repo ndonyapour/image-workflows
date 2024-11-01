@@ -9,17 +9,17 @@ inputs:
     inputBinding:
       prefix: --outDir
     type: Directory
+
 outputs:
   outDir:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
+    
+baseCommand: ["python3", "-m", "polus.plugins.utils.bbbc_download"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/bbbc-download-plugin:0.1.0-dev1
-  EnvVarRequirement:
-    envDef:
-      HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

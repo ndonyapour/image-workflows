@@ -46,6 +46,7 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
+baseCommand: ["python3", "-m", "polus.images.features.nyxus_tool"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/nyxus-tool:0.1.8-dev0

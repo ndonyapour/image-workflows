@@ -34,12 +34,13 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
+baseCommand: ["python3", "-m", "polus.images.transforms.images.montage"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/montage-tool:0.5.1
-  EnvVarRequirement:
-    envDef:
-      HOME: /home/polusai
+  # EnvVarRequirement:
+  #   envDef:
+  #     HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

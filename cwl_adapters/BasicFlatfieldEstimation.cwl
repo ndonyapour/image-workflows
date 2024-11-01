@@ -26,12 +26,13 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
+baseCommand: ["python3", "-m", "polus.images.regression.basic_flatfield_estimation"]
 requirements:
   DockerRequirement:
-    dockerPull: polusai/basic-flatfield-estimation-tool:2.1.2
-  EnvVarRequirement:
-    envDef:
-      HOME: /home/polusai
+    dockerPull: polusai/basic-flatfield-estimation-tool:2.1.3-dev0
+  # EnvVarRequirement:
+  #   envDef:
+  #     HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

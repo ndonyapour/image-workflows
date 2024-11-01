@@ -22,12 +22,13 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
+baseCommand: ["python3", "-m", "polus.images.segmentation.kaggle_nuclei_segmentation"]
 requirements:
   DockerRequirement:
-    dockerPull: polusai/kaggle-nuclei-segmentation-tool:0.1.5-dev2
-  EnvVarRequirement:
-    envDef:
-      HOME: /home/polusai
+    dockerPull: polusai/kaggle-nuclei-segmentation-tool:0.1.5-dev1
+  # EnvVarRequirement:
+  #   envDef:
+  #     HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

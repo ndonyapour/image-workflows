@@ -1,0 +1,58 @@
+steps:
+  BbbcDownload:
+    in:
+      name: !ii BBBC001
+      outDir: !ii bbbcdownload.outDir
+    out:
+    - outDir: !& bbbcdownload.outDir
+  FileRenaming:
+    in:
+      filePattern: !ii /.*/.*/.*/Images/.*/.*_{row:c}{col:dd}f{f:dd}d{channel:d}.tif
+      inpDir: !* bbbcdownload.outDir
+      outDir: !ii file-renaming.outDir
+      outFilePattern: !ii x{row:dd}_y{col:dd}_p{f:dd}_c{channel:d}.tif
+    out:
+    - outDir: !& file-renaming.outDir
+  OmeConverter:
+    in:
+      filePattern: !ii .*.tif
+      inpDir: !* file-renaming.outDir
+      outDir: !ii omeconverter.outDir
+    out:
+    - outDir: !& omeconverter.outDir
+  BasicFlatfieldEstimation:
+    in:
+      inpDir: !* omeconverter.outDir
+      filePattern: !ii "x{row:d+}_y{col:d+}_p{p:d+}_c{c:d}.ome.tif"
+      groupBy: !ii c
+      getDarkfield: !ii True
+      outDir: !ii flatest_outDir
+    out:
+    - outDir: !& flatest_outDir
+  ApplyFlatfield:
+    in:
+      imgDir: !* omeconverter.outDir
+      imgPattern: !ii x{x:dd}_y{y:dd}_p{p:dd}_c{c:d}.ome.tif
+      ffDir: !* flatest_outDir
+      ffPattern: !ii "x00_y03_p0\\(0-5\\)_c{c:d}_flatfield.ome.tif"
+      dfPattern: !ii "x00_y03_p0\\(0-5\\)_c{c:d}_darkfield.ome.tif"
+      outDir: !ii appflat_outdir
+    out:
+    - outDir: !& appflat_outdir
+  KaggleNucleiSegmentation:
+    in:
+      inpDir: !* appflat_outdir
+      filePattern: !ii "x{row:d+}_y{col:d+}_p{p:d+}_c{c:d}.ome.tif"
+      outDir: !ii kaggle_nuclei_segmentation.outDir
+      preview: !ii False
+    out:
+    - outDir: !& kaggle_nuclei_segmentation.outDir
+  # FtlLabel:
+  #   in:
+  #     inpDir: !* kaggle_nuclei_segmentation.outDir
+  #     connectivity: !ii 1
+  #     binarizationThreshold: !ii 0.5
+  #     outDir: !ii ftl_label_outDir
+  #   out:
+  #   - outDir: !& ftl_label_outDir
+

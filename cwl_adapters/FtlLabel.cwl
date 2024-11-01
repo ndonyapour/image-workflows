@@ -8,7 +8,7 @@ inputs:
   connectivity:
     inputBinding:
       prefix: --connectivity
-    type: string
+    type: int
   inpDir:
     inputBinding:
       prefix: --inpDir
@@ -22,12 +22,13 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
+baseCommand: ["python3", "main"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/ftl-label-plugin:0.3.12-dev5
-  EnvVarRequirement:
-    envDef:
-      HOME: /home/polusai
+  # EnvVarRequirement:
+  #   envDef:
+  #     HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

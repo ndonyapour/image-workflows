@@ -34,12 +34,13 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
+baseCommand: ["python3", "-m", "polus.images.transforms.images.apply_flatfield"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/apply-flatfield-tool:2.0.1
-  EnvVarRequirement:
-    envDef:
-      HOME: /home/polusai
+  # EnvVarRequirement:
+  #   envDef:
+  #     HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)
