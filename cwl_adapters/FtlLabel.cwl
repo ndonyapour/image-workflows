@@ -26,9 +26,6 @@ baseCommand: ["python3", "main"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/ftl-label-plugin:0.3.12-dev5
-  # EnvVarRequirement:
-  #   envDef:
-  #     HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

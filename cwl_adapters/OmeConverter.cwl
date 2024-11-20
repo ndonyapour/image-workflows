@@ -21,10 +21,12 @@ outputs:
 baseCommand: ["python3", "-m", "polus.images.formats.ome_converter"]
 requirements:
   DockerRequirement:
-    dockerPull: polusai/ome-converter-tool:0.3.3-dev3
+    dockerPull: polusai/ome-converter-tool:0.3.3-dev4
   # EnvVarRequirement:
   #   envDef:
   #     HOME: /home/polusai
+  ResourceRequirement:
+    ramMin: 10240 # 10 Gi
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

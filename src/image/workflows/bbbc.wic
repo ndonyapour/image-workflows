@@ -3,39 +3,39 @@ steps:
     in:
       name: !ii BBBC001
       outDir: !ii bbbcdownload.outDir
-      glob_pattern: !ii BBBC/BBBC001/raw/Images/human_ht29_colon_cancer_1_images/
+      # glob_pattern: !ii BBBC/BBBC001/raw/Images/human_ht29_colon_cancer_1_images/
     out:
     - outDir: !& bbbcdownload.outDir
-  FileRenaming:
-    in:
-      filePattern: !ii .*_{row:c}{col:dd}f{f:dd}d{channel:d}.tif
-      inpDir: !* bbbcdownload.outDir
-      outDir: !ii file-renaming.outDir
-      outFilePattern: !ii x{row:dd}_y{col:dd}_p{f:dd}_c{channel:d}.tif
-    out:
-    - outDir: !& file-renaming.outDir
-  OmeConverter:
-    in:
-      filePattern: !ii .*.tif
-      inpDir: !* file-renaming.outDir
-      outDir: !ii omeconverter.outDir
-    out:
-    - outDir: !& omeconverter.outDir
-  Montage:
-    in:
-      filePattern: !ii x00_y03_p{p:dd}_c0.ome.tif
-      inpDir: !* omeconverter.outDir
-      layout: !ii p
-      outDir: !ii montage.outDir
-    out:
-    - outDir: !& montage.outDir
-  ImageAssembler:
-    in:
-      imgPath: !* omeconverter.outDir
-      outDir: !ii image_assembler.outDir
-      stitchPath: !* montage.outDir
-    out:
-    - outDir: !& image_assembler.outDir
+  # FileRenaming:
+  #   in:
+  #     filePattern: !ii .*_{row:c}{col:dd}f{f:dd}d{channel:d}.tif
+  #     inpDir: !* bbbcdownload.outDir
+  #     outDir: !ii file-renaming.outDir
+  #     outFilePattern: !ii x{row:dd}_y{col:dd}_p{f:dd}_c{channel:d}.tif
+  #   out:
+  #   - outDir: !& file-renaming.outDir
+  # OmeConverter:
+  #   in:
+  #     filePattern: !ii .*.tif
+  #     inpDir: !* file-renaming.outDir
+  #     outDir: !ii omeconverter.outDir
+  #   out:
+  #   - outDir: !& omeconverter.outDir
+  # Montage:
+  #   in:
+  #     filePattern: !ii x00_y03_p{p:dd}_c0.ome.tif
+  #     inpDir: !* omeconverter.outDir
+  #     layout: !ii p
+  #     outDir: !ii montage.outDir
+  #   out:
+  #   - outDir: !& montage.outDir
+  # ImageAssembler:
+  #   in:
+  #     imgPath: !* omeconverter.outDir
+  #     outDir: !ii image_assembler.outDir
+  #     stitchPath: !* montage.outDir
+  #   out:
+  #   - outDir: !& image_assembler.outDir
   # PrecomputeSlide:
   #   in:
   #     imageType: !ii Intensity

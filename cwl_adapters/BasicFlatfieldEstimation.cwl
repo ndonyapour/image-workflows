@@ -30,9 +30,8 @@ baseCommand: ["python3", "-m", "polus.images.regression.basic_flatfield_estimati
 requirements:
   DockerRequirement:
     dockerPull: polusai/basic-flatfield-estimation-tool:2.1.3-dev0
-  # EnvVarRequirement:
-  #   envDef:
-  #     HOME: /home/polusai
+  ResourceRequirement:
+    ramMin: 10240 # 10240 Mi
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

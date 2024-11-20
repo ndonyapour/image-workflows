@@ -26,9 +26,8 @@ baseCommand: ["python3", "-m", "polus.images.segmentation.kaggle_nuclei_segmenta
 requirements:
   DockerRequirement:
     dockerPull: polusai/kaggle-nuclei-segmentation-tool:0.1.5-dev1
-  # EnvVarRequirement:
-  #   envDef:
-  #     HOME: /home/polusai
+  ResourceRequirement:
+    ramMin: 10240 # 10240 Mi
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

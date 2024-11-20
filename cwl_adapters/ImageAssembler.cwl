@@ -30,9 +30,6 @@ baseCommand: ["python3", "-m", "polus.images.transforms.images.image_assembler"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/image-assembler-tool:1.4.2
-  # EnvVarRequirement:
-  #   envDef:
-  #     HOME: /home/polusai
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)

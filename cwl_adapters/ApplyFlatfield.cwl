@@ -41,6 +41,8 @@ requirements:
   # EnvVarRequirement:
   #   envDef:
   #     HOME: /home/polusai
+  ResourceRequirement:
+    ramMin: 10240 # 10240 Mi
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)
