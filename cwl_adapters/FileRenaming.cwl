@@ -26,14 +26,16 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
-baseCommand: ["python3", "-m", "polus.images.formats.file_renaming"]
 requirements:
   DockerRequirement:
-    dockerPull: polusai/file-renaming-tool:0.2.4-dev3
+    dockerPull: polusai/file-renaming-tool:0.2.5-dev0
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)
       writable: true
   InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 10240
   NetworkAccess:
     networkAccess: true
+baseCommand: ['python3', '-m', 'polus.images.formats.file_renaming']

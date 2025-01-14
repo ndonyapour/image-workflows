@@ -48,13 +48,13 @@ steps:
       preview: !ii False
     out:
     - outDir: !& kaggle_nuclei_segmentation.outDir
-  # # FtlLabel:
-  # #   scatter: [inpDir]
-  # #   in:
-  # #     inpDir: !* kaggle_nuclei_segmentation.outDir
-  # #     connectivity: !ii 1
-  # #     binarizationThreshold: !ii 0.5
-  # #     outDir: !ii ftl_label_outDir
-  # #   out:
-  # #   - outDir: !& ftl_label_outDir
+  FtlLabel:
+    scatter: [inpDir]
+    in:
+      inpDir: !* kaggle_nuclei_segmentation.outDir
+      connectivity: !ii 1
+      binarizationThreshold: !ii 0.5
+      outDir: !ii ftl_label_outDir
+    out:
+    - outDir: !& ftl_label_outDir
 

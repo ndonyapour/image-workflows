@@ -1,0 +1,107 @@
+steps:
+- id: FileRenaming
+  scatter: [inpDir]
+  in:
+    filePattern:
+      wic_inline_input: '{x:c+}.*-.*{y:dd}.*wv.{c:c+}.*.tif'
+    inpDir:
+      wic_inline_input: [/projects/SOD1/CD_SOD1_2_E1023884 __1,/projects/SOD1/CD_SOD1_2_E1023886 __1]
+    mapDirectory:
+      wic_inline_input: false
+    outDir:
+      wic_inline_input: rename.outDir
+    outFilePattern:
+      wic_inline_input: x{x:dd}_y{y:dd}_c{c:d}.tif
+  out:
+  - outDir:
+      wic_anchor: inpDirOmeConverter
+- id: OmeConverter
+  scatter: [inpDir]
+  in:
+    filePattern:
+      wic_inline_input: x{x:dd}_y{y:dd}_c{c:d}.tif
+    inpDir:
+      wic_alias: inpDirOmeConverter
+    outDir:
+      wic_inline_input: ome_converter.outDir
+  out:
+  - outDir:
+      wic_anchor: inpDirBasicFlatfieldEstimation
+- id: BasicFlatfieldEstimation
+  scatter: [inpDir]
+  in:
+    filePattern:
+      wic_inline_input: x{x:dd}_y{y:dd}_c{c:d}.ome.tif
+    getDarkfield:
+      wic_inline_input: true
+    groupBy:
+      wic_inline_input: c
+    inpDir:
+      wic_alias: inpDirBasicFlatfieldEstimation
+    outDir:
+      wic_inline_input: estimate_flatfield.outDir
+  out:
+  - outDir:
+      wic_anchor: ffDirApplyFlatfield
+- id: ApplyFlatfield
+  scatter: [ffDir, imgDir]
+  scatterMethod: dotproduct
+  in:
+    dfPattern:
+      wic_inline_input: x\(00-31\)_y\(01-48\)_c{c:d}_darkfield.ome.tif
+    ffDir:
+      wic_alias: ffDirApplyFlatfield
+    ffPattern:
+      wic_inline_input: x\(00-31\)_y\(01-48\)_c{c:d}_flatfield.ome.tif
+    imgDir:
+      wic_alias: inpDirBasicFlatfieldEstimation
+    imgPattern:
+      wic_inline_input: x{x:dd}_y{y:dd}_c{c:d}.ome.tif
+    outDir:
+      wic_inline_input: apply_flatfield.outDir
+  out:
+  - outDir:
+      wic_anchor: inpDirMontage
+- id: Montage
+  scatter: [inpDir]
+  in:
+    filePattern:
+      wic_inline_input: x{x:dd}_y{y:dd}_c{c:d}.ome.tif
+    gridSpacing:
+      wic_inline_input: 20
+    imageSpacing:
+      wic_inline_input: 1
+    inpDir:
+      wic_alias: inpDirMontage
+    layout:
+      wic_inline_input: yx
+    outDir:
+      wic_inline_input: montage.outDir
+  out:
+  - outDir:
+      wic_anchor: stitchPathImageAssembler
+- id: ImageAssembler
+  scatter: [imgPath, stitchPath]
+  scatterMethod: dotproduct
+  in:
+    imgPath:
+      wic_alias: inpDirMontage
+    outDir:
+      wic_inline_input: image_assembler.outDir
+    stitchPath:
+      wic_alias: stitchPathImageAssembler
+  out:
+  - outDir:
+      wic_anchor: inpDirPrecomputeSlide
+- id: PrecomputeSlide
+  scatter: [inpDir]
+  in:
+    imageType:
+      wic_inline_input: image
+    inpDir:
+      wic_alias: inpDirPrecomputeSlide
+    outDir:
+      wic_inline_input: precompute_slide.outDir
+    pyramidType:
+      wic_inline_input: Zarr
+  out: []

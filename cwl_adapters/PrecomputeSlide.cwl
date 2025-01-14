@@ -26,17 +26,16 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
-baseCommand: ["python3", "-m", "polus.images.visualization.precompute_slide"]
 requirements:
   DockerRequirement:
-    dockerPull: polusai/precompute-slide-tool:1.7.2
-  # EnvVarRequirement:
-  #   envDef:
-  #     HOME: /home/polusai
+    dockerPull: polusai/precompute-slide-plugin:1.7.0-dev0
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)
       writable: true
   InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 10240
   NetworkAccess:
     networkAccess: true
+baseCommand: ['python3', '-m', 'polus.plugins.visualization.precompute_slide']

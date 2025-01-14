@@ -8,7 +8,7 @@ inputs:
   connectivity:
     inputBinding:
       prefix: --connectivity
-    type: int
+    type: string
   inpDir:
     inputBinding:
       prefix: --inpDir
@@ -22,7 +22,6 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
-baseCommand: ["python3", "main"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/ftl-label-plugin:0.3.12-dev5
@@ -31,5 +30,8 @@ requirements:
     - entry: $(inputs.outDir)
       writable: true
   InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 10240
   NetworkAccess:
     networkAccess: true
+baseCommand: ['python3', '/ftl-rust/src/main.py']

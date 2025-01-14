@@ -18,19 +18,16 @@ outputs:
     outputBinding:
       glob: $(inputs.outDir.basename)
     type: Directory
-baseCommand: ["python3", "-m", "polus.images.formats.ome_converter"]
 requirements:
   DockerRequirement:
     dockerPull: polusai/ome-converter-tool:0.3.3-dev4
-  # EnvVarRequirement:
-  #   envDef:
-  #     HOME: /home/polusai
-  ResourceRequirement:
-    ramMin: 10240 # 10 Gi
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)
       writable: true
   InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 10240
   NetworkAccess:
     networkAccess: true
+baseCommand: ['python3', '-m', 'polus.images.formats.ome_converter']

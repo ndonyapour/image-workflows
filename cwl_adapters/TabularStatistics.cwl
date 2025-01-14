@@ -1,26 +1,26 @@
 class: CommandLineTool
 cwlVersion: v1.2
 inputs:
-  imgPath:
+  filePattern:
     inputBinding:
-      prefix: --imgPath
+      prefix: --filePattern
+    type: string?
+  groupBy:
+    inputBinding:
+      prefix: --groupBy
+    type: string?
+  inpDir:
+    inputBinding:
+      prefix: --inpDir
     type: Directory
   outDir:
     inputBinding:
       prefix: --outDir
     type: Directory
-  preview:
+  statistics:
     inputBinding:
-      prefix: --preview
-    type: boolean?
-  stitchPath:
-    inputBinding:
-      prefix: --stitchPath
-    type: Directory
-  timesliceNaming:
-    inputBinding:
-      prefix: --timesliceNaming
-    type: boolean?
+      prefix: --statistics
+    type: string
 outputs:
   outDir:
     outputBinding:
@@ -28,14 +28,14 @@ outputs:
     type: Directory
 requirements:
   DockerRequirement:
-    dockerPull: polusai/image-assembler-tool:1.4.2
+    dockerPull: polusai/tabular-statistics-tool:0.1.0-dev0
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs.outDir)
       writable: true
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 40960
+    ramMin: 10240
   NetworkAccess:
     networkAccess: true
-baseCommand: ['python3', '-m', 'polus.images.transforms.images.image_assembler']
+baseCommand: ['python3', '-m', 'polus.tabular.features.tabular_statistics']
